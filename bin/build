@@ -10,10 +10,14 @@ for GOOS in $OSES; do
         if [ "${GOOS}-${GOARCH}" == "windows-arm64" ]; then
             continue
         fi
+        EXTENSION=""
+        if [ "${GOOS}" == "windows" ]; then
+            EXTENSION=".exe"
+        fi
         echo ">> Building ${GOOS}/${GOARCH}"
         export GOOS
         export GOARCH
-        time go build -o "/build/usurp_${GOOS}_${GOARCH}"
+        time go build -o "/build/usurp_${GOOS}_${GOARCH}${EXTENSION}"
         echo ""
     done
 done
