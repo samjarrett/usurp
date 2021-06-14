@@ -3,7 +3,7 @@ name: Build & Pre-Release
 on:
   push:
     branches:
-      - "main"
+      - "*"
 
 jobs:
   build:
@@ -24,11 +24,7 @@ jobs:
       - name: Build
         run: bin/build
 
-      - uses: "marvinpinto/action-automatic-releases@latest"
+      - uses: actions/upload-artifact@v2
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          prerelease: true
-          automatic_release_tag: latest
-          title: "Development release: main branch"
-          files: |
-            build/*
+          name: builds
+          path: build/*
