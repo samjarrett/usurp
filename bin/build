@@ -4,7 +4,7 @@ set -o pipefail
 OSES="linux darwin windows"
 ARCHS="amd64 arm64"
 
-rm -f /build/*
+rm -f build/*
 for GOOS in $OSES; do
     for GOARCH in $ARCHS; do
         if [ "${GOOS}-${GOARCH}" == "windows-arm64" ]; then
@@ -17,10 +17,10 @@ for GOOS in $OSES; do
         echo ">> Building ${GOOS}/${GOARCH}"
         export GOOS
         export GOARCH
-        time go build -o "/build/usurp_${GOOS}_${GOARCH}${EXTENSION}"
+        time go build -o "build/usurp_${GOOS}_${GOARCH}${EXTENSION}"
         echo ""
     done
 done
 
 echo ">> Building darwin/universal"
-time makefat /build/usurp_darwin_universal /build/usurp_darwin_*
+time makefat build/usurp_darwin_universal build/usurp_darwin_*
