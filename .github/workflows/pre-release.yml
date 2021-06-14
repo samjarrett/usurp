@@ -3,7 +3,7 @@ name: Build & Pre-Release
 on:
   push:
     branches:
-      - "*"
+      - "main"
 
 jobs:
   build:
@@ -24,14 +24,11 @@ jobs:
       - name: Build
         run: bin/build
 
-      - run: echo "##[set-output name=branch;]${GITHUB_REF#refs/heads/}"
-        id: extract_branch
-
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: true
-          automatic_release_tag: "${{ steps.extract_branch.outputs.branch }}"
-          title: "Development release: ${{ steps.extract_branch.outputs.branch }}"
+          automatic_release_tag: latest
+          title: "Development release: main branch"
           files: |
             build/*
