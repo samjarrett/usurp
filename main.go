@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"syscall"
+	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
@@ -24,6 +25,7 @@ type Credentials struct {
 	AccessKeyId     string
 	SecretAccessKey string
 	SessionToken    string
+	Expiration      time.Time
 }
 
 func abort(status int, message interface{}) {
@@ -58,6 +60,7 @@ func assumeRole(roleArn string) (Credentials, error) {
 			AccessKeyId:     *o.Credentials.AccessKeyId,
 			SecretAccessKey: *o.Credentials.SecretAccessKey,
 			SessionToken:    *o.Credentials.SessionToken,
+			Expiration:      *o.Credentials.Expiration,
 		},
 		nil
 }
@@ -97,6 +100,8 @@ func main() {
 	if err != nil {
 		abort(1, err)
 	}
+
+	fmt.Fprintf(os.Stderr, "⏲  Session expires: %s\n", creds.Expiration.Format(time.RFC1123))
 
 	runCommand(creds, command)
 }
