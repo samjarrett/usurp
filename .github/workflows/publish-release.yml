@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
           go mod download
-          go get github.com/randall77/makefat
+          go install github.com/randall77/makefat@latest
 
       - name: Build
         run: bin/build
