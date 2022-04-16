@@ -1,9 +1,7 @@
 name: Build & Pre-Release
 
 on:
-  push:
-    branches:
-      - "*"
+  push: ~
 
 jobs:
   build:
